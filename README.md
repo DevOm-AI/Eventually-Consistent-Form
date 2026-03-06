@@ -1,5 +1,7 @@
 # Eventually Consistent Form
 
+Tech Stack : React JS + Vite
+
 This project is a small React application that simulates submitting a form to an unreliable API. The form collects an **email** and an **amount**, and the UI updates immediately after submission to reflect the current request state.
 
 ## State Transitions
