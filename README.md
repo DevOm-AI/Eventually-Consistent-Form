@@ -1,16 +1,26 @@
-# React + Vite
+# Eventually Consistent Form
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a small React application that simulates submitting a form to an unreliable API. The form collects an **email** and an **amount**, and the UI updates immediately after submission to reflect the current request state.
 
-Currently, two official plugins are available:
+## State Transitions
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+When the user submits the form, the UI immediately moves to a **pending** state.
+Depending on the API response, the state may change to **success**, **retrying**, or **failed**.
+If the API response is delayed, the UI still remains in the pending state until the request completes.
 
-## React Compiler
+## Retry Logic
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+The mock API randomly returns one of three responses: success (200), temporary failure (503), or delayed success.
+If a temporary failure occurs, the application automatically retries the request after a short delay, with a limited number of retry attempts.
 
-## Expanding the ESLint configuration
+## Preventing Duplicate Submissions
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Duplicate submissions are prevented by disabling the submit button while a request is in progress. This ensures the same request cannot be triggered multiple times while the current submission is still being processed.
+
+## Running the Project
+
+1. Install dependencies
+   npm install
+
+2. Start the development server
+   npm run dev
