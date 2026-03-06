@@ -1,19 +1,26 @@
 # Eventually Consistent Form
 
-This is a small React app that simulates submitting a form to an unreliable API. The form collects an email and amount, and shows different UI states depending on how the API responds.
+This project is a small React application that simulates submitting a form to an unreliable API. The form collects an **email** and an **amount**, and the UI updates immediately after submission to reflect the current request state.
 
 ## State Transitions
 
 When the user submits the form, the UI immediately moves to a **pending** state.
-If the API responds successfully, it becomes **success**.
-If a temporary failure occurs, the app goes into **retrying** and attempts the request again.
-If all retries fail, it shows **failed**.
+Depending on the API response, the state may change to **success**, **retrying**, or **failed**.
+If the API response is delayed, the UI still remains in the pending state until the request completes.
 
 ## Retry Logic
 
-The mock API randomly returns success, temporary failure (503), or delayed success.
-If a temporary failure happens, the request retries automatically with a small delay and a retry limit.
+The mock API randomly returns one of three responses: success (200), temporary failure (503), or delayed success.
+If a temporary failure occurs, the application automatically retries the request after a short delay, with a limited number of retry attempts.
 
-## Preventing Duplicates
+## Preventing Duplicate Submissions
 
-The submit button is disabled while a request is pending, so users cannot send duplicate submissions.
+Duplicate submissions are prevented by disabling the submit button while a request is in progress. This ensures the same request cannot be triggered multiple times while the current submission is still being processed.
+
+## Running the Project
+
+1. Install dependencies
+   npm install
+
+2. Start the development server
+   npm run dev
