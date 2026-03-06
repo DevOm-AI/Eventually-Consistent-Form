@@ -20,6 +20,21 @@ export default function App() {
   const [status, setStatus] = useState("idle");
   const [retryCount, setRetryCount] = useState(0);
 
+  const getStatusStyle = () => {
+    switch (status) {
+      case "pending":
+        return { background: "#fff3cd", color: "#856404" };
+      case "retrying":
+        return { background: "#ffeeba", color: "#856404" };
+      case "success":
+        return { background: "#d4edda", color: "#155724" };
+      case "failed":
+        return { background: "#f8d7da", color: "#721c24" };
+      default:
+        return { background: "#e2e3e5", color: "#383d41" };
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -45,7 +60,14 @@ export default function App() {
   };
 
   return (
-    <div style={{ padding: 40, fontFamily: "Arial" }}>
+    <div
+      style={{
+        padding: 40,
+        fontFamily: "Arial",
+        maxWidth: 400,
+        margin: "auto"
+      }}
+    >
       <h2>Eventually Consistent Form</h2>
 
       <form onSubmit={handleSubmit}>
@@ -55,6 +77,7 @@ export default function App() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          style={{ width: "100%", padding: 8 }}
         />
 
         <br /><br />
@@ -65,16 +88,34 @@ export default function App() {
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           required
+          style={{ width: "100%", padding: 8 }}
         />
 
         <br /><br />
 
-        <button disabled={status === "pending"}>
+        <button
+          disabled={status === "pending"}
+          style={{
+            padding: "10px 20px",
+            cursor: status === "pending" ? "not-allowed" : "pointer"
+          }}
+        >
           Submit
         </button>
       </form>
 
-      <p>Status: {status}</p>
+      <br />
+
+      <span
+        style={{
+          padding: "6px 12px",
+          borderRadius: 6,
+          fontWeight: "bold",
+          ...getStatusStyle()
+        }}
+      >
+        Status: {status}
+      </span>
     </div>
   );
 }
