@@ -1,16 +1,19 @@
-# React + Vite
+# Eventually Consistent Form
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a small React app that simulates submitting a form to an unreliable API. The form collects an email and amount, and shows different UI states depending on how the API responds.
 
-Currently, two official plugins are available:
+## State Transitions
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+When the user submits the form, the UI immediately moves to a **pending** state.
+If the API responds successfully, it becomes **success**.
+If a temporary failure occurs, the app goes into **retrying** and attempts the request again.
+If all retries fail, it shows **failed**.
 
-## React Compiler
+## Retry Logic
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+The mock API randomly returns success, temporary failure (503), or delayed success.
+If a temporary failure happens, the request retries automatically with a small delay and a retry limit.
 
-## Expanding the ESLint configuration
+## Preventing Duplicates
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The submit button is disabled while a request is pending, so users cannot send duplicate submissions.
